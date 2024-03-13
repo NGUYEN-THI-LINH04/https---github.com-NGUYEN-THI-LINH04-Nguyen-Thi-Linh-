@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <input onlick="baitoandem()"type="submit" value="baitoandem">
+    <script>
+    function baitoandem(n) {
+        if (n === 0 || n === 1) {
+          return 1;
+        } else {
+          return n * baitoandem(n - 1);
+        }
+      }
+      
+      function numberOfWaysToArrangeBooks(n) {
+        return baitoandem(n);
+      }
+      
+      const numberOfBooks = 6;
+      const numberOfWays = numberOfWaysToArrangeBooks(numberOfBooks);
+      console.log(`Số cách để sắp xếp ${numberOfBooks} quyển sách là: ${numberOfWays}`);
+ </script>
+</body>
+</html>

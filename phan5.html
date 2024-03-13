@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input onclick="baitoanthuattoan()" type="submit" value="baitoanthuattoan">
+    <script>
+function isValidMove(grid, visited, row, col) {
+    const rows = grid.length;
+    const cols = grid[0].length;
+    return row >= 0 && row < rows && col >= 0 && col < cols && grid[row][col] !== 1 && !visited[row][col];
+}
+
+function bfs(grid, start, end) {
+    const rows = grid.length;
+    const cols = grid[0].length;
+
+    // Tạo mảng visited để đánh dấu các ô đã được thăm
+    const visited = new Array(rows).fill(false).map(() => new Array(cols).fill(false));
+
+    // Khởi tạo hàng đợi cho BFS
+    const queue = [];
+    queue.push(start);
+    visited[start[0]][start[1]] = true;
+
+    // Khởi tạo mảng parents để lưu trữ đường đi từ start đến end
+    const parents = {};
+
+    // Di chuyển theo hướng bắt đầu từ start
+    const directions = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+
+    while (queue.length > 0) {
+        const [row, col] = queue.shift();
+
+        // Nếu đến được điểm đích, kết thúc
+        if (row === end[0] && col === end[1]) {
+            break;
+        }
+
+        // Kiểm tra các ô lân cận có thể di chuyển tới
+        for (const [dr, dc] of directions) {
+            const newRow = row + dr;
+            const newCol = col + dc;
+            if (isValidMove(grid, visited, newRow, newCol)) {
+                queue.push([newRow, newCol]);
+                visited[newRow][newCol] = true;
+                parents[[newRow, newCol]] = [row, col];
+            }
+        }
+    }
+
+    // Tạo đường đi từ start đến end dựa trên mảng parents
+    const path = [];
+    let current = end;
+    while (current[0] !== start[0] || current[1] !== start[1]) {
+        path.push(current);
+        current = parents[current];
+    }
+    path.push(start);
+
+    // Đảo ngược đường đi để có thứ tự từ start đến end
+    return path.reverse();
+}
+
+// Ví dụ về sử dụng
+const grid = [
+    [0, 0, 0, 0, 0],
+    [1, 1, 1, 1, 0],
+    [0, 0, 0, 0, 0],
+    [0, 1, 1, 1, 1],
+    [0, 0, 0, 0, 0]
+];
+const start = [0, 0];
+const end = [4, 4];
+
+const shortestPath = bfs(grid, start, end);
+console.log(`Đường đi ngắn nhất từ ${start} đến ${end}:`, shortestPath)
+</script>
+</body>
+</html>

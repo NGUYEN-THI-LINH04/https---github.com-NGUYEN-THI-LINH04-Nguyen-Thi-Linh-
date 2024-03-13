@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input onlick="baitoanlietke()"type="submit" value="baitoanlietke">
+<script>
+// Hàm tính giai thừa
+function factorial(n) {
+    if (n === 0 || n === 1) {
+        return 1;
+    } else {
+        return n * factorial(n - 1);
+    }
+}
+
+// Tính số cách sắp xếp 4 đám hoa từ 5 loại hoa khác nhau
+var num_arrangements = factorial(5) / factorial(5 - 4);
+console.log("Số cách sắp xếp 4 đám hoa từ 5 loại hoa khác nhau là:", num_arrangements);
+
+// Liệt kê các cách sắp xếp
+var flowers = ['hoa A', 'hoa B', 'hoa C', 'hoa D', 'hoa E'];
+var arrangements = [];
+
+function permute(arr, m = []) {
+    if (arr.length === 0) {
+        arrangements.push(m);
+    } else {
+        for (let i = 0; i < arr.length; i++) {
+            let curr = arr.slice();
+            let next = curr.splice(i, 1);
+            permute(curr.slice(), m.concat(next));
+        }
+    }
+}
+
+permute(flowers);
+console.log("Các cách sắp xếp 4 đám hoa từ 5 loại hoa khác nhau là:");
+for (let i = 0; i < arrangements.length; i++) {
+    console.log(arrangements[i].slice(0, 4).join(", "));
+}
+</script>
+</body>
+</html>
